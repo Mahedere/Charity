@@ -18,12 +18,17 @@
             </div>
             
             <div class="nav__menu" id="nav-menu">
+                <div class="nav__close" id="nav-close">
+                    <span>&times;</span>
+                </div>
+                
                 <ul class="nav__list">
                     <li class="nav__item"><a href="#home" class="nav__link" data-en="Home" data-am="መነሻ">Home</a></li>
                     <li class="nav__item"><a href="#about" class="nav__link" data-en="About" data-am="ስለ እኛ">About</a></li>
                     <li class="nav__item"><a href="#programs" class="nav__link" data-en="Programs" data-am="ፕሮግራሞች">Programs</a></li>
                     <li class="nav__item"><a href="#recent-events" class="nav__link" data-en="Events" data-am="ክንውኖች">Events</a></li>
                     <li class="nav__item"><a href="#stories" class="nav__link" data-en="Stories" data-am="ታሪኮች">Stories</a></li>
+                    <li class="nav__item"><a href="#certifications" class="nav__link" data-en="Certifications" data-am="የምስክር ወረቀቶች">Certifications</a></li>
                     <li class="nav__item"><a href="#gallery" class="nav__link" data-en="Gallery" data-am="ምስሎች">Gallery</a></li>
                     <li class="nav__item"><a href="#contact" class="nav__link" data-en="Contact" data-am="ያግኙን">Contact</a></li>
                 </ul>
@@ -34,10 +39,6 @@
                         <span class="language-toggle__text">አማ</span>
                     </button>
                     <a href="#donate" class="btn btn--primary" data-en="Donate Now" data-am="አሁን ይለግሱ">Donate Now</a>
-                </div>
-                
-                <div class="nav__close" id="nav-close">
-                    <span>&times;</span>
                 </div>
             </div>
             
@@ -59,21 +60,48 @@
     <main class="main">
         <!-- Hero Section -->
         <section class="hero section" id="home">
-            <div class="hero__container container grid">
-                <div class="hero__content">
-                    <h1 class="hero__title">
-                        <span data-en="Supporting Our" data-am="የእኛን">Supporting Our</span> 
-                        <span class="text-primary" data-en="Community" data-am="ማህበረሰብ">Community</span> 
-                        <span data-en="Elders" data-am="አረጋውያን">Elders</span>
-                    </h1>
-                    <p class="hero__description" data-en="Congo and Neighborhood Development Association (CNDA) is dedicated to improving the lives of elderly and disadvantaged individuals in Addis Ababa through comprehensive support programs." data-am="የኮንጎ ሰፈር እና አካባቢው ልማት ማህበር (CNDA) በአዲስ አበባ ውስጥ የአረጋውያን እና የተቸገሩ ግለሰቦችን ህይወት በአጠቃላይ የድጋፍ ፕሮግራሞች በማሻሻል ላይ ያተኮረ ነው።">Congo and Neighborhood Development Association (CNDA) is dedicated to improving the lives of elderly and disadvantaged individuals in Addis Ababa through comprehensive support programs.</p>
-                    <div class="hero__actions">
-                        <a href="#donate" class="btn btn--primary btn--large" data-en="Make a Donation" data-am="ልገሳ ያድርጉ">Make a Donation</a>
-                        <a href="#programs" class="btn btn--outline btn--large" data-en="View Programs" data-am="ፕሮግራሞችን ይመልከቱ">View Programs</a>
-                    </div>
+            <div class="hero__floating-elements">
+                <div class="hero__floating-element"></div>
+                <div class="hero__floating-element"></div>
+                <div class="hero__floating-element"></div>
+            </div>
+            
+            <div class="hero__container container">
+                <div class="hero__badge">
+                    <div class="hero__badge-icon">❤️</div>
+                    <span data-en="Serving Our Community Since 2015" data-am="ከ2015 ጀምሮ ማህበረሰባችንን እናገለግላለን">Serving Our Community Since 2015</span>
                 </div>
-                <div class="hero__image">
-                    <img src="/placeholder.svg?height=400&width=600" alt="Community Support" class="hero__img">
+                
+                <h1 class="hero__title">
+                    <span data-en="Supporting Our" data-am="የእኛን">Supporting Our</span><br>
+                    <span class="text-highlight" data-en="Community Elders" data-am="ማህበረሰብ አረጋውያን">Community Elders</span><br>
+                    <span data-en="With Dignity & Care" data-am="በክብር እና ፍቅር">With Dignity & Care</span>
+                </h1>
+                
+                <p class="hero__description" data-en="Congo and Neighborhood Development Association (CNDA) is dedicated to improving the lives of elderly and disadvantaged individuals in Addis Ababa through comprehensive support programs, healthcare assistance, and community empowerment initiatives." data-am="የኮንጎ ሰፈር እና አካባቢው ልማት ማህበር (CNDA) በአዲስ አበባ ውስጥ የአረጋውያን እና የተቸገሩ ግለሰቦችን ህይወት በአጠቃላይ የድጋፍ ፕሮግራሞች፣ የጤና እርዳታ እና የማህበረሰብ ማጎልበት ተነሳሽነቶች በማሻሻል ላይ ያተኮረ ነው።">Congo and Neighborhood Development Association (CNDA) is dedicated to improving the lives of elderly and disadvantaged individuals in Addis Ababa through comprehensive support programs, healthcare assistance, and community empowerment initiatives.</p>
+                
+                <div class="hero__actions">
+                    <a href="#donate" class="btn btn--primary btn--large" data-en="Make a Donation" data-am="ልገሳ ያድርጉ">Make a Donation</a>
+                    <a href="#programs" class="btn btn--outline-white btn--large" data-en="View Programs" data-am="ፕሮግራሞችን ይመልከቱ">View Programs</a>
+                </div>
+                
+                <div class="hero__stats">
+                    <div class="hero__stat">
+                        <span class="hero__stat-number">40+</span>
+                        <span class="hero__stat-label" data-en="Elders Supported" data-am="የሚደገፉ አረጋውያን">Elders Supported</span>
+                    </div>
+                    <div class="hero__stat">
+                        <span class="hero__stat-number">9+</span>
+                        <span class="hero__stat-label" data-en="Years of Service" data-am="የአገልግሎት ዓመታት">Years of Service</span>
+                    </div>
+                    <div class="hero__stat">
+                        <span class="hero__stat-number">100%</span>
+                        <span class="hero__stat-label" data-en="Community Focused" data-am="በማህበረሰብ ላይ ያተኮረ">Community Focused</span>
+                    </div>
+                    <div class="hero__stat">
+                        <span class="hero__stat-number">24/7</span>
+                        <span class="hero__stat-label" data-en="Support Available" data-am="ድጋፍ ይገኛል">Support Available</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -277,6 +305,104 @@
             </div>
         </section>
 
+        <!-- Certifications Section -->
+        <section class="certifications section" id="certifications">
+            <div class="certifications__container container">
+                <div class="section__header">
+                    <span class="section__subtitle" data-en="Our Credentials" data-am="የእኛ ማረጋገጫዎች">Our Credentials</span>
+                    <h2 class="section__title" data-en="Certifications & Recognition" data-am="የምስክር ወረቀቶች እና እውቅና">Certifications & Recognition</h2>
+                    <p class="section__description" data-en="CNDA is a legally registered organization with proper certifications and recognition from relevant authorities, ensuring transparency and accountability in our operations." data-am="CNDA በተዛማጅ ባለስልጣናት ተገቢ የምስክር ወረቀቶች እና እውቅና ያለው በህጋዊ መንገድ የተመዘገበ ድርጅት ሲሆን በእኛ ስራዎች ውስጥ ግልጽነት እና ተጠያቂነትን ያረጋግጣል።">CNDA is a legally registered organization with proper certifications and recognition from relevant authorities, ensuring transparency and accountability in our operations.</p>
+                </div>
+                
+                <div class="certifications__grid">
+                    <div class="certification-card">
+                        <div class="certification-card__image">
+                            <img src="/images/certificate-1.jpg" alt="CNDA Registration Certificate" class="certification-card__img">
+                            <div class="certification-card__overlay">
+                                <button class="certification-card__view-btn" data-en="View Certificate" data-am="ምስክር ወረቀት ይመልከቱ">View Certificate</button>
+                            </div>
+                        </div>
+                        <div class="certification-card__content">
+                            <div class="certification-card__badge">
+                                <span class="certification-card__badge-icon">🏛️</span>
+                                <span class="certification-card__badge-text" data-en="Official Registration" data-am="ይፋዊ ምዝገባ">Official Registration</span>
+                            </div>
+                            <h3 class="certification-card__title" data-en="Legal Registration Certificate" data-am="የህጋዊ ምዝገባ ምስክር ወረቀት">Legal Registration Certificate</h3>
+                            <p class="certification-card__description" data-en="Official registration certificate from Ethiopian authorities confirming CNDA's legal status as a civil society organization." data-am="የCNDA የሲቪል ማህበረሰብ ድርጅት ህጋዊ ሁኔታን የሚያረጋግጥ ከኢትዮጵያ ባለስልጣናት የተሰጠ ይፋዊ የምዝገባ ምስክር ወረቀት።">Official registration certificate from Ethiopian authorities confirming CNDA's legal status as a civil society organization.</p>
+                            <div class="certification-card__details">
+                                <span class="certification-card__detail">
+                                    <strong data-en="Registration No:" data-am="የምዝገባ ቁጥር:">Registration No:</strong> 6607
+                                </span>
+                                <span class="certification-card__detail">
+                                    <strong data-en="Date:" data-am="ቀን:">Date:</strong> <span data-en="January 16, 2023" data-am="ጥር 16፣ 2023">January 16, 2023</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="certification-card">
+                        <div class="certification-card__image">
+                            <img src="/images/certificate-2.jpg" alt="Community Service Recognition" class="certification-card__img">
+                            <div class="certification-card__overlay">
+                                <button class="certification-card__view-btn" data-en="View Certificate" data-am="ምስክር ወረቀት ይመልከቱ">View Certificate</button>
+                            </div>
+                        </div>
+                        <div class="certification-card__content">
+                            <div class="certification-card__badge">
+                                <span class="certification-card__badge-icon">🏆</span>
+                                <span class="certification-card__badge-text" data-en="Recognition" data-am="እውቅና">Recognition</span>
+                            </div>
+                            <h3 class="certification-card__title" data-en="Community Service Award" data-am="የማህበረሰብ አገልግሎት ሽልማት">Community Service Award</h3>
+                            <p class="certification-card__description" data-en="Recognition certificate for outstanding community service and dedication to supporting elderly and disadvantaged community members." data-am="ለአረጋውያን እና ለተቸገሩ የማህበረሰብ አባላት ድጋፍ ለመስጠት ላደረገው ጥሩ የማህበረሰብ አገልግሎት እና ቁርጠኝነት የእውቅና ምስክር ወረቀት።">Recognition certificate for outstanding community service and dedication to supporting elderly and disadvantaged community members.</p>
+                            <div class="certification-card__details">
+                                <span class="certification-card__detail">
+                                    <strong data-en="Issued by:" data-am="የተሰጠው በ:">Issued by:</strong> <span data-en="Yeka Sub City" data-am="የካ ክፍለ ከተማ">Yeka Sub City</span>
+                                </span>
+                                <span class="certification-card__detail">
+                                    <strong data-en="Year:" data-am="ዓመት:">Year:</strong> 2023
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="certification-card">
+                        <div class="certification-card__image">
+                            <img src="/images/certificate-3.jpg" alt="Compliance Certificate" class="certification-card__img">
+                            <div class="certification-card__overlay">
+                                <button class="certification-card__view-btn" data-en="View Certificate" data-am="ምስክር ወረቀት ይመልከቱ">View Certificate</button>
+                            </div>
+                        </div>
+                        <div class="certification-card__content">
+                            <div class="certification-card__badge">
+                                <span class="certification-card__badge-icon">✅</span>
+                                <span class="certification-card__badge-text" data-en="Compliance" data-am="ተገዢነት">Compliance</span>
+                            </div>
+                            <h3 class="certification-card__title" data-en="Operational Compliance Certificate" data-am="የአሰራር ተገዢነት ምስክር ወረቀት">Operational Compliance Certificate</h3>
+                            <p class="certification-card__description" data-en="Certificate confirming CNDA's compliance with civil society organization regulations and operational standards." data-am="የCNDA የሲቪል ማህበረሰብ ድርጅት ደንቦች እና የአሰራር ደረጃዎች ተገዢነት የሚያረጋግጥ ምስክር ወረቀት።">Certificate confirming CNDA's compliance with civil society organization regulations and operational standards.</p>
+                            <div class="certification-card__details">
+                                <span class="certification-card__detail">
+                                    <strong data-en="Proclamation:" data-am="አዋጅ:">Proclamation:</strong> No 1113/2019
+                                </span>
+                                <span class="certification-card__detail">
+                                    <strong data-en="Status:" data-am="ሁኔታ:">Status:</strong> <span data-en="Active" data-am="ንቁ">Active</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="certifications__note">
+                    <div class="certifications__note-content">
+                        <div class="certifications__note-icon">📋</div>
+                        <div class="certifications__note-text">
+                            <h4 data-en="Transparency & Accountability" data-am="ግልጽነት እና ተጠያቂነት">Transparency & Accountability</h4>
+                            <p data-en="All our certifications and legal documents are available for public review. We maintain the highest standards of transparency in our operations and financial management." data-am="ሁሉም የእኛ ምስክር ወረቀቶች እና ህጋዊ ሰነዶች ለህዝብ ግምገማ ይገኛሉ። በእኛ ስራዎች እና የፋይናንስ አስተዳደር ውስጥ ከፍተኛ የግልጽነት ደረጃዎችን እንይዛለን።">All our certifications and legal documents are available for public review. We maintain the highest standards of transparency in our operations and financial management.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Gallery Section -->
         <section class="gallery section" id="gallery">
             <div class="gallery__container container">
@@ -356,16 +482,25 @@
 
                     <ul class="contact__list">
                         <li class="contact__item">
-                            <i class="ri-map-pin-line"></i>
-                            <span data-en="Yeka Sub city Wereda 07, Addis Ababa, Ethiopia" data-am="የካ ክፍለ ከተማ ወረዳ 07፣ አዲስ አበባ፣ ኢትዮጵያ">Yeka Sub city Wereda 07, Addis Ababa, Ethiopia</span>
+                            <i class="contact__icon">📍</i>
+                            <div>
+                                <strong data-en="Address" data-am="አድራሻ">Address</strong><br>
+                                <span data-en="Yeka Sub city Wereda 07, Addis Ababa, Ethiopia" data-am="የካ ክፍለ ከተማ ወረዳ 07፣ አዲስ አበባ፣ ኢትዮጵያ">Yeka Sub city Wereda 07, Addis Ababa, Ethiopia</span>
+                            </div>
                         </li>
                         <li class="contact__item">
-                            <i class="ri-mail-line"></i>
-                            Congo.cnda@gmail.com
+                            <i class="contact__icon">✉️</i>
+                            <div>
+                                <strong data-en="Email" data-am="ኢሜይል">Email</strong><br>
+                                Congo.cnda@gmail.com
+                            </div>
                         </li>
                         <li class="contact__item">
-                            <i class="ri-phone-line"></i>
-                            +251911212833
+                            <i class="contact__icon">📞</i>
+                            <div>
+                                <strong data-en="Phone" data-am="ስልክ">Phone</strong><br>
+                                +251911212833
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -391,7 +526,9 @@
                         <textarea id="message" name="message" class="contact__form-input" placeholder="Your Message" rows="5" required></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn--primary btn--block" data-en="Send Message" data-am="መልእክት ላክ">Send Message</button>
+                    <div class="contact__form-group contact__form-group--full">
+                        <button type="submit" class="btn btn--primary btn--block" data-en="Send Message" data-am="መልእክት ላክ">Send Message</button>
+                    </div>
                 </form>
             </div>
         </section>
