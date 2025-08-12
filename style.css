@@ -406,8 +406,8 @@ ul {
   background-size: 400px 400px;
   background-position: center;
   background-repeat: no-repeat;
-  filter: blur(8px) opacity(0.1);
-  transform: scale(1.2);
+  filter: blur(2px) opacity(0.9);
+  transform: scale(2.5);
   z-index: 1;
 }
 
@@ -2224,5 +2224,14 @@ textarea.contact__form-input {
 
   .program-card__content {
     padding: var(--spacing-6);
+  }
+}
+.language-toggle#language-toggle-mobile {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .language-toggle#language-toggle-mobile {
+    display: none !important;
   }
 }
