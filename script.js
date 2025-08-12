@@ -1,386 +1,546 @@
-class CNDAWebsite {
-    constructor() {
-        this.currentLanguage = 'en';
-        this.isMenuOpen = false;
-        this.init();
+// ===== GLOBAL VARIABLES =====
+let currentLanguage = 'en';
+let currentSlide = 0;
+let carouselInterval;
+
+// ===== DOM ELEMENTS =====
+const navMenu = document.getElementById('nav-menu');
+const navToggle = document.getElementById('nav-toggle');
+const navClose = document.getElementById('nav-close');
+const languageToggleDesktop = document.getElementById('language-toggle-desktop');
+const languageToggleMobile = document.getElementById('language-toggle-mobile');
+const scrollUpBtn = document.getElementById('scroll-up');
+const contactForm = document.getElementById('contact-form');
+const carouselTrack = document.getElementById('carousel-track');
+const carouselIndicators = document.getElementById('carousel-indicators');
+
+// ===== NAVIGATION MENU =====
+function showMenu() {
+    if (navMenu) {
+        navMenu.classList.add('nav__menu--active');
     }
+}
 
-    init() {
-        this.setupMobileNavigation();
-        this.setupLanguageToggle();
-        this.setupSmoothScroll();
-        this.setupScrollEffects();
-        this.setupForms();
-        this.setupFAQ();
-        this.setupScrollUp();
-        this.setupDonationButtons();
-        this.initializeLanguage();
+function hideMenu() {
+    if (navMenu) {
+        navMenu.classList.remove('nav__menu--active');
     }
+}
 
-    setupMobileNavigation() {
-        const navToggle = document.getElementById('nav-toggle');
-        const navMenu = document.getElementById('nav-menu');
-        const navClose = document.getElementById('nav-close');
-        const navLinks = document.querySelectorAll('.nav__link');
+// Event listeners for navigation
+if (navToggle) {
+    navToggle.addEventListener('click', showMenu);
+}
 
-        if (navToggle) {
-            navToggle.addEventListener('click', () => this.toggleMobileMenu());
+if (navClose) {
+    navClose.addEventListener('click', hideMenu);
+}
+
+// Close menu when clicking on nav links
+const navLinks = document.querySelectorAll('.nav__link');
+navLinks.forEach(link => {
+    link.addEventListener('click', hideMenu);
+});
+
+// ===== LANGUAGE TOGGLE =====
+function updateLanguageToggleText() {
+    const toggleText = currentLanguage === 'en' ? 'አማ' : 'EN';
+    
+    if (languageToggleDesktop) {
+        languageToggleDesktop.querySelector('.language-toggle__text').textContent = toggleText;
+    }
+    if (languageToggleMobile) {
+        languageToggleMobile.querySelector('.language-toggle__text').textContent = toggleText;
+    }
+}
+
+function updateContent() {
+    const elements = document.querySelectorAll('[data-en][data-am]');
+    
+    elements.forEach(element => {
+        const content = currentLanguage === 'en' ? element.getAttribute('data-en') : element.getAttribute('data-am');
+        if (content) {
+            element.textContent = content;
         }
+    });
+    
+    // Update HTML lang attribute
+    document.documentElement.setAttribute('lang', currentLanguage);
+    document.documentElement.setAttribute('data-lang', currentLanguage);
+    
+    updateLanguageToggleText();
+}
 
-        if (navClose) {
-            navClose.addEventListener('click', () => this.closeMobileMenu());
+function toggleLanguage() {
+    currentLanguage = currentLanguage === 'en' ? 'am' : 'en';
+    updateContent();
+    
+    // Store language preference
+    localStorage.setItem('preferred-language', currentLanguage);
+    
+    // Show notification
+    showNotification(
+        currentLanguage === 'en' ? 'Language changed to English' : 'ቋንቋ ወደ አማርኛ ተቀይሯል',
+        'info'
+    );
+}
+
+// Event listeners for language toggle
+if (languageToggleDesktop) {
+    languageToggleDesktop.addEventListener('click', toggleLanguage);
+}
+
+if (languageToggleMobile) {
+    languageToggleMobile.addEventListener('click', toggleLanguage);
+}
+
+// ===== IMAGE CAROUSEL =====
+function initCarousel() {
+    const images = document.querySelectorAll('.carousel__image');
+    const indicators = document.querySelectorAll('.carousel__indicator');
+    
+    if (images.length === 0) return;
+    
+    function showSlide(index) {
+        // Hide all images
+        images.forEach(img => img.classList.remove('active'));
+        indicators.forEach(indicator => indicator.classList.remove('active'));
+        
+        // Show current image
+        if (images[index]) {
+            images[index].classList.add('active');
         }
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => this.closeMobileMenu());
+        if (indicators[index]) {
+            indicators[index].classList.add('active');
+        }
+        
+        currentSlide = index;
+    }
+    
+    function nextSlide() {
+        const nextIndex = (currentSlide + 1) % images.length;
+        showSlide(nextIndex);
+    }
+    
+    function startCarousel() {
+        carouselInterval = setInterval(nextSlide, 1500); // Change every 1.5 seconds
+    }
+    
+    function stopCarousel() {
+        if (carouselInterval) {
+            clearInterval(carouselInterval);
+        }
+    }
+    
+    // Add click event listeners to indicators
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            showSlide(index);
+            stopCarousel();
+            startCarousel(); // Restart the interval
         });
-
-        document.addEventListener('click', (e) => {
-            if (navMenu && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
-                this.closeMobileMenu();
-            }
-        });
+    });
+    
+    // Pause carousel on hover
+    if (carouselTrack) {
+        carouselTrack.addEventListener('mouseenter', stopCarousel);
+        carouselTrack.addEventListener('mouseleave', startCarousel);
     }
+    
+    // Start the carousel
+    startCarousel();
+}
 
-    toggleMobileMenu() {
-        const navMenu = document.getElementById('nav-menu');
-        const body = document.body;
-
-        if (navMenu) {
-            this.isMenuOpen = !this.isMenuOpen;
-            
-            if (this.isMenuOpen) {
-                navMenu.classList.add('nav__menu--active');
-                body.style.overflow = 'hidden';
-            } else {
-                navMenu.classList.remove('nav__menu--active');
-                body.style.overflow = '';
-            }
-        }
-    }
-
-    closeMobileMenu() {
-        const navMenu = document.getElementById('nav-menu');
-        const body = document.body;
-
-        if (navMenu) {
-            this.isMenuOpen = false;
-            navMenu.classList.remove('nav__menu--active');
-            body.style.overflow = '';
-        }
-    }
-
-    setupLanguageToggle() {
-        const languageToggleMobile = document.getElementById('language-toggle-mobile');
-        const languageToggleDesktop = document.getElementById('language-toggle-desktop');
-
-        if (languageToggleMobile) {
-            languageToggleMobile.addEventListener('click', () => this.toggleLanguage());
-        }
-
-        if (languageToggleDesktop) {
-            languageToggleDesktop.addEventListener('click', () => this.toggleLanguage());
-        }
-    }
-
-    initializeLanguage() {
-        const savedLanguage = localStorage.getItem('cnda-language') || 'en';
-        this.setLanguage(savedLanguage);
-    }
-
-    toggleLanguage() {
-        const newLanguage = this.currentLanguage === 'en' ? 'am' : 'en';
-        this.setLanguage(newLanguage);
-        localStorage.setItem('cnda-language', newLanguage);
-    }
-
-    setLanguage(language) {
-        this.currentLanguage = language;
-        document.documentElement.setAttribute('data-lang', language);
-        document.documentElement.setAttribute('lang', language === 'am' ? 'am' : 'en');
-
-        const elementsWithLangData = document.querySelectorAll('[data-en], [data-am]');
-        
-        elementsWithLangData.forEach(element => {
-            const englishText = element.getAttribute('data-en');
-            const amharicText = element.getAttribute('data-am');
-            
-            if (language === 'en' && englishText) {
-                element.textContent = englishText;
-            } else if (language === 'am' && amharicText) {
-                element.textContent = amharicText;
-            }
-        });
-
-        this.updateLanguageToggleButtons(language);
-        this.updateFormPlaceholders(language);
-    }
-
-    updateLanguageToggleButtons(language) {
-        const toggleButtons = document.querySelectorAll('.language-toggle__text');
-        const newText = language === 'en' ? 'አማ' : 'EN';
-        
-        toggleButtons.forEach(button => {
-            button.textContent = newText;
-        });
-    }
-
-    updateFormPlaceholders(language) {
-        const placeholders = {
-            en: {
-                name: 'Your Name',
-                email: 'Your Email',
-                subject: 'Subject',
-                message: 'Your Message',
-                customAmount: 'Custom amount'
-            },
-            am: {
-                name: 'የእርስዎ ስም',
-                email: 'የእርስዎ ኢሜይል',
-                subject: 'ርዕስ',
-                message: 'የእርስዎ መልእክት',
-                customAmount: 'የተለየ መጠን'
-            }
-        };
-
-        const inputs = [
-            { selector: 'input[name="name"]', key: 'name' },
-            { selector: 'input[name="email"]', key: 'email' },
-            { selector: 'input[name="subject"]', key: 'subject' },
-            { selector: 'textarea[name="message"]', key: 'message' },
-            { selector: '.donation__custom-input', key: 'customAmount' }
-        ];
-
-        inputs.forEach(input => {
-            const element = document.querySelector(input.selector);
-            if (element && placeholders[language][input.key]) {
-                element.placeholder = placeholders[language][input.key];
-            }
-        });
-    }
-
-    setupSmoothScroll() {
-        const navLinks = document.querySelectorAll('a[href^="#"]');
-        
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    const header = document.querySelector('.header');
-                    const headerHeight = header ? header.offsetHeight : 0;
-                    const targetPosition = targetElement.offsetTop - headerHeight - 20;
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                    
-                    this.closeMobileMenu();
-                }
-            });
-        });
-    }
-
-    setupScrollEffects() {
-        window.addEventListener('scroll', () => this.handleScroll());
-        
-        if ('IntersectionObserver' in window) {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
-
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(30px)';
-                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(section);
-            });
-        }
-    }
-
-    setupForms() {
-        this.setupContactForm();
-    }
-
-    setupContactForm() {
-        const contactForm = document.getElementById('contact-form');
-        
-        if (contactForm) {
-            contactForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                this.handleContactFormSubmission(contactForm);
-            });
-        }
-    }
-
-    handleContactFormSubmission(form) {
-        const submitButton = form.querySelector('button[type="submit"]');
-        if (!submitButton) return;
-
-        const originalText = submitButton.textContent;
-        const loadingText = this.currentLanguage === 'en' ? 'Sending...' : 'እየላካል...';
-        
-        submitButton.textContent = loadingText;
-        submitButton.disabled = true;
-        
-        setTimeout(() => {
-            const successMessage = this.currentLanguage === 'en' 
-                ? 'Thank you! Your message has been sent successfully.'
-                : 'አመሰግናለሁ! መልእክትዎ በተሳካ ሁኔታ ተልኳል።';
-            
-            this.showNotification(successMessage, 'success');
-            form.reset();
-            submitButton.textContent = originalText;
-            submitButton.disabled = false;
-        }, 2000);
-    }
-
-    setupFAQ() {
-        const faqQuestions = document.querySelectorAll('.faq__question');
-        
-        faqQuestions.forEach(question => {
-            question.addEventListener('click', () => {
-                const faqItem = question.closest('.faq__item');
-                const answer = faqItem.querySelector('.faq__answer');
-                const icon = question.querySelector('.faq__icon');
-                const isOpen = question.getAttribute('aria-expanded') === 'true';
-                
-                faqQuestions.forEach(otherQuestion => {
-                    if (otherQuestion !== question) {
-                        const otherItem = otherQuestion.closest('.faq__item');
-                        const otherAnswer = otherItem.querySelector('.faq__answer');
-                        const otherIcon = otherQuestion.querySelector('.faq__icon');
-                        
-                        otherQuestion.setAttribute('aria-expanded', 'false');
-                        otherAnswer.style.maxHeight = '0';
-                        otherIcon.textContent = '+';
-                        otherItem.classList.remove('faq__item--active');
-                    }
-                });
-                
-                if (isOpen) {
-                    question.setAttribute('aria-expanded', 'false');
-                    answer.style.maxHeight = '0';
-                    icon.textContent = '+';
-                    faqItem.classList.remove('faq__item--active');
-                } else {
-                    question.setAttribute('aria-expanded', 'true');
-                    answer.style.maxHeight = answer.scrollHeight + 'px';
-                    icon.textContent = '−';
-                    faqItem.classList.add('faq__item--active');
-                }
-            });
-        });
-    }
-
-    setupScrollUp() {
-        const scrollUpButton = document.getElementById('scroll-up');
-        
-        if (scrollUpButton) {
-            scrollUpButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-        }
-    }
-
-    setupDonationButtons() {
-        const amountButtons = document.querySelectorAll('.amount-btn');
-        const customAmountInput = document.querySelector('.donation__custom-input');
-
-        amountButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                amountButtons.forEach(btn => btn.classList.remove('amount-btn--active'));
-                button.classList.add('amount-btn--active');
-                
-                if (customAmountInput) {
-                    customAmountInput.value = '';
-                }
-            });
-        });
-
-        if (customAmountInput) {
-            customAmountInput.addEventListener('input', () => {
-                amountButtons.forEach(btn => btn.classList.remove('amount-btn--active'));
-            });
-        }
-    }
-
-    showNotification(message, type = 'info') {
-        const existingNotifications = document.querySelectorAll('.notification');
-        existingNotifications.forEach(notification => {
-            notification.remove();
-        });
-
-        const notification = document.createElement('div');
-        notification.className = `notification notification--${type}`;
-        notification.textContent = message;
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.classList.add('notification--visible');
-        }, 100);
-        
-        setTimeout(() => {
-            notification.classList.remove('notification--visible');
-            setTimeout(() => {
-                if (document.body.contains(notification)) {
-                    document.body.removeChild(notification);
-                }
-            }, 300);
-        }, 4000);
-    }
-
-    handleScroll() {
-        const header = document.querySelector('.header');
-        const scrollUpButton = document.getElementById('scroll-up');
-        const scrollY = window.scrollY;
-
-        if (header) {
-            if (scrollY > 100) {
-                header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-                header.style.backdropFilter = 'blur(10px)';
-            } else {
-                header.style.backgroundColor = '#ffffff';
-                header.style.backdropFilter = 'none';
-            }
-        }
-
-        if (scrollUpButton) {
-            if (scrollY > 500) {
-                scrollUpButton.classList.add('scrollup--show');
-            } else {
-                scrollUpButton.classList.remove('scrollup--show');
-            }
+// ===== SCROLL UP BUTTON =====
+function toggleScrollUpButton() {
+    if (scrollUpBtn) {
+        if (window.scrollY >= 350) {
+            scrollUpBtn.classList.add('scrollup--show');
+        } else {
+            scrollUpBtn.classList.remove('scrollup--show');
         }
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    new CNDAWebsite();
+if (scrollUpBtn) {
+    scrollUpBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+// ===== HEADER SCROLL EFFECT =====
+function handleHeaderScroll() {
+    const header = document.getElementById('header');
+    if (header) {
+        if (window.scrollY >= 50) {
+            header.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+            header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+        } else {
+            header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+            header.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
+        }
+    }
+}
+
+// ===== FAQ FUNCTIONALITY =====
+function initFAQ() {
+    const faqItems = document.querySelectorAll('.faq__item');
+    
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq__question');
+        const answer = item.querySelector('.faq__answer');
+        
+        if (question && answer) {
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('faq__item--active');
+                
+                // Close all FAQ items
+                faqItems.forEach(faqItem => {
+                    faqItem.classList.remove('faq__item--active');
+                    const faqAnswer = faqItem.querySelector('.faq__answer');
+                    if (faqAnswer) {
+                        faqAnswer.style.maxHeight = '0';
+                    }
+                    const faqQuestion = faqItem.querySelector('.faq__question');
+                    if (faqQuestion) {
+                        faqQuestion.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    item.classList.add('faq__item--active');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    question.setAttribute('aria-expanded', 'true');
+                }
+            });
+        }
+    });
+}
+
+// ===== DONATION AMOUNT SELECTION =====
+function initDonationAmounts() {
+    const amountBtns = document.querySelectorAll('.amount-btn');
+    const customInput = document.querySelector('.donation__custom-input');
+    
+    amountBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all buttons
+            amountBtns.forEach(b => b.classList.remove('amount-btn--active'));
+            
+            // Add active class to clicked button
+            btn.classList.add('amount-btn--active');
+            
+            // Clear custom input
+            if (customInput) {
+                customInput.value = '';
+            }
+        });
+    });
+    
+    if (customInput) {
+        customInput.addEventListener('input', () => {
+            // Remove active class from all buttons when typing custom amount
+            amountBtns.forEach(btn => btn.classList.remove('amount-btn--active'));
+        });
+    }
+}
+
+// ===== CONTACT FORM =====
+function initContactForm() {
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(contactForm);
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            // Show loading state
+            submitBtn.textContent = currentLanguage === 'en' ? 'Sending...' : 'እየላካል...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Simulate form submission (replace with actual endpoint)
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Show success message
+                showNotification(
+                    currentLanguage === 'en' 
+                        ? 'Message sent successfully! We\'ll get back to you soon.' 
+                        : 'መልእክት በተሳካ ሁኔታ ተልኳል! በቅርቡ እናገኝዎታለን።',
+                    'success'
+                );
+                
+                // Reset form
+                contactForm.reset();
+                
+            } catch (error) {
+                // Show error message
+                showNotification(
+                    currentLanguage === 'en' 
+                        ? 'Failed to send message. Please try again.' 
+                        : 'መልእክት መላክ አልተሳካም። እባክዎ እንደገና ይሞክሩ።',
+                    'error'
+                );
+            } finally {
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+}
+
+// ===== NOTIFICATION SYSTEM =====
+function showNotification(message, type = 'info') {
+    // Remove existing notifications
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(notification => notification.remove());
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification--${type}`;
+    notification.textContent = message;
+    
+    // Add to DOM
+    document.body.appendChild(notification);
+    
+    // Show notification
+    setTimeout(() => {
+        notification.classList.add('notification--visible');
+    }, 100);
+    
+    // Hide and remove notification
+    setTimeout(() => {
+        notification.classList.remove('notification--visible');
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 4000);
+}
+
+// ===== SMOOTH SCROLLING FOR ANCHOR LINKS =====
+function initSmoothScrolling() {
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            
+            // Skip if it's just "#"
+            if (href === '#') return;
+            
+            const target = document.querySelector(href);
+            if (target) {
+                e.preventDefault();
+                
+                const headerHeight = document.getElementById('header')?.offsetHeight || 70;
+                const targetPosition = target.offsetTop - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                hideMenu();
+            }
+        });
+    });
+}
+
+// ===== GALLERY LIGHTBOX =====
+function initGalleryLightbox() {
+    const galleryImages = document.querySelectorAll('.gallery__img');
+    
+    galleryImages.forEach(img => {
+        img.addEventListener('click', () => {
+            // Create lightbox overlay
+            const lightbox = document.createElement('div');
+            lightbox.className = 'lightbox-overlay';
+            lightbox.innerHTML = `
+                <div class="lightbox-content">
+                    <img src="${img.src}" alt="${img.alt}" class="lightbox-image">
+                    <button class="lightbox-close">&times;</button>
+                </div>
+            `;
+            
+            // Add styles
+            lightbox.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+            
+            const content = lightbox.querySelector('.lightbox-content');
+            content.style.cssText = `
+                position: relative;
+                max-width: 90%;
+                max-height: 90%;
+            `;
+            
+            const image = lightbox.querySelector('.lightbox-image');
+            image.style.cssText = `
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+            `;
+            
+            const closeBtn = lightbox.querySelector('.lightbox-close');
+            closeBtn.style.cssText = `
+                position: absolute;
+                top: -40px;
+                right: 0;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 30px;
+                cursor: pointer;
+                padding: 5px 10px;
+            `;
+            
+            // Add to DOM
+            document.body.appendChild(lightbox);
+            
+            // Show lightbox
+            setTimeout(() => {
+                lightbox.style.opacity = '1';
+            }, 10);
+            
+            // Close lightbox function
+            function closeLightbox() {
+                lightbox.style.opacity = '0';
+                setTimeout(() => {
+                    if (lightbox.parentNode) {
+                        lightbox.parentNode.removeChild(lightbox);
+                    }
+                }, 300);
+            }
+            
+            // Event listeners
+            closeBtn.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+            
+            // ESC key to close
+            const handleEsc = (e) => {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                    document.removeEventListener('keydown', handleEsc);
+                }
+            };
+            document.addEventListener('keydown', handleEsc);
+        });
+    });
+}
+
+// ===== SCROLL ANIMATIONS =====
+function initScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    // Observe elements for animation
+    const animatedElements = document.querySelectorAll(`
+        .program-card,
+        .story-card,
+        .event-card,
+        .certification-card,
+        .value-card,
+        .stats__card
+    `);
+    
+    animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+}
+
+// ===== INITIALIZATION =====
+function init() {
+    // Load saved language preference
+    const savedLanguage = localStorage.getItem('preferred-language');
+    if (savedLanguage && savedLanguage !== currentLanguage) {
+        currentLanguage = savedLanguage;
+        updateContent();
+    }
+    
+    // Initialize all functionality
+    initCarousel();
+    initFAQ();
+    initDonationAmounts();
+    initContactForm();
+    initSmoothScrolling();
+    initGalleryLightbox();
+    initScrollAnimations();
+    
+    // Set up scroll event listeners
+    window.addEventListener('scroll', () => {
+        toggleScrollUpButton();
+        handleHeaderScroll();
+    });
+    
+    // Initial calls
+    toggleScrollUpButton();
+    handleHeaderScroll();
+    
+    console.log('CNDA Website initialized successfully!');
+}
+
+// ===== DOM CONTENT LOADED =====
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
+
+// ===== WINDOW LOAD EVENT =====
+window.addEventListener('load', () => {
+    // Hide any loading spinners or show content
+    document.body.classList.add('loaded');
 });
 
-window.addEventListener('load', () => {
-    const loadingElements = document.querySelectorAll('.loading');
-    loadingElements.forEach(element => {
-        element.style.display = 'none';
-    });
+// ===== ERROR HANDLING =====
+window.addEventListener('error', (e) => {
+    console.error('JavaScript Error:', e.error);
 });
+
+// ===== PERFORMANCE MONITORING =====
+if ('performance' in window) {
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const perfData = performance.getEntriesByType('navigation')[0];
+            console.log('Page Load Time:', perfData.loadEventEnd - perfData.loadEventStart, 'ms');
+        }, 0);
+    });
+}
