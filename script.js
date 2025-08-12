@@ -2,6 +2,9 @@
 let currentLanguage = 'en';
 let currentSlide = 0;
 let carouselInterval;
+let currentGalleryPage = 1;
+let galleryItemsPerPage = 12;
+let currentFilter = 'all';
 
 // ===== DOM ELEMENTS =====
 const navMenu = document.getElementById('nav-menu');
@@ -149,6 +152,164 @@ function initCarousel() {
     
     // Start the carousel
     startCarousel();
+}
+
+// ===== GALLERY FUNCTIONALITY =====
+function initGallery() {
+    const filterBtns = document.querySelectorAll('.gallery__filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery__item');
+    const galleryGrid = document.getElementById('gallery-grid');
+    const paginationNumbers = document.getElementById('gallery-numbers');
+    const prevBtn = document.getElementById('gallery-prev');
+    const nextBtn = document.getElementById('gallery-next');
+    const loadMoreBtn = document.getElementById('gallery-load-more');
+    
+    // All gallery items data (simulate more items)
+    const allGalleryItems = [
+        { category: 'events', title: 'Community Meeting', date: '2023', src: '/images/gallery-1.jpg' },
+        { category: 'support', title: 'Food Distribution', date: '2023', src: '/images/gallery-2.jpg' },
+        { category: 'healthcare', title: 'Healthcare Support', date: '2023', src: '/images/gallery-3.jpg' },
+        { category: 'community', title: 'Community Celebration', date: '2023', src: '/images/gallery-4.jpg' },
+        { category: 'support', title: 'Youth Training', date: '2023', src: '/images/gallery-5.jpg' },
+        { category: 'events', title: 'Certificate Ceremony', date: '2023', src: '/images/gallery-6.jpg' },
+        { category: 'community', title: 'Volunteer Activities', date: '2022', src: '/images/gallery-7.jpg' },
+        { category: 'support', title: 'Elderly Care', date: '2022', src: '/images/gallery-8.jpg' },
+        { category: 'community', title: 'Community Outreach', date: '2022', src: '/images/gallery-9.jpg' },
+        { category: 'events', title: 'Holiday Celebration', date: '2022', src: '/images/gallery-10.jpg' },
+        { category: 'healthcare', title: 'Medical Care Access', date: '2022', src: '/images/gallery-11.jpg' },
+        { category: 'community', title: 'Facility Management', date: '2021', src: '/images/gallery-12.jpg' },
+        // Additional items for pagination
+        { category: 'events', title: 'Annual Gathering', date: '2021', src: '/images/gallery-13.jpg' },
+        { category: 'support', title: 'Emergency Aid', date: '2021', src: '/images/gallery-14.jpg' },
+        { category: 'healthcare', title: 'Health Checkup', date: '2021', src: '/images/gallery-15.jpg' },
+        { category: 'community', title: 'Cultural Event', date: '2021', src: '/images/gallery-16.jpg' },
+        { category: 'support', title: 'Skills Training', date: '2020', src: '/images/gallery-17.jpg' },
+        { category: 'events', title: 'Fundraising Event', date: '2020', src: '/images/gallery-18.jpg' },
+        { category: 'community', title: 'Neighborhood Clean-up', date: '2020', src: '/images/gallery-19.jpg' },
+        { category: 'healthcare', title: 'Mobile Clinic', date: '2020', src: '/images/gallery-20.jpg' },
+        { category: 'support', title: 'Educational Support', date: '2020', src: '/images/gallery-21.jpg' },
+        { category: 'events', title: 'Recognition Ceremony', date: '2019', src: '/images/gallery-22.jpg' },
+        { category: 'community', title: 'Community Garden', date: '2019', src: '/images/gallery-23.jpg' },
+        { category: 'support', title: 'Winter Support', date: '2019', src: '/images/gallery-24.jpg' }
+    ];
+    
+    function getFilteredItems() {
+        return currentFilter === 'all' 
+            ? allGalleryItems 
+            : allGalleryItems.filter(item => item.category === currentFilter);
+    }
+    
+    function renderGalleryItems(items, page = 1) {
+        const startIndex = (page - 1) * galleryItemsPerPage;
+        const endIndex = startIndex + galleryItemsPerPage;
+        const itemsToShow = items.slice(startIndex, endIndex);
+        
+        if (galleryGrid) {
+            galleryGrid.innerHTML = itemsToShow.map(item => `
+                <div class="gallery__item" data-category="${item.category}">
+                    <img src="${item.src}" alt="${item.title}" class="gallery__img">
+                    <div class="gallery__overlay">
+                        <h4 class="gallery__title">${item.title}</h4>
+                        <p class="gallery__date">${item.date}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Re-initialize lightbox for new items
+            initGalleryLightbox();
+        }
+    }
+    
+    function updatePagination(totalItems) {
+        const totalPages = Math.ceil(totalItems / galleryItemsPerPage);
+        
+        if (paginationNumbers) {
+            paginationNumbers.innerHTML = '';
+            for (let i = 1; i <= Math.min(totalPages, 5); i++) {
+                const btn = document.createElement('button');
+                btn.className = `gallery__pagination-number ${i === currentGalleryPage ? 'gallery__pagination-number--active' : ''}`;
+                btn.setAttribute('data-page', i);
+                btn.textContent = i;
+                btn.addEventListener('click', () => {
+                    currentGalleryPage = i;
+                    const filteredItems = getFilteredItems();
+                    renderGalleryItems(filteredItems, currentGalleryPage);
+                    updatePagination(filteredItems.length);
+                });
+                paginationNumbers.appendChild(btn);
+            }
+        }
+        
+        // Update prev/next buttons
+        if (prevBtn) {
+            prevBtn.disabled = currentGalleryPage === 1;
+        }
+        if (nextBtn) {
+            nextBtn.disabled = currentGalleryPage === totalPages;
+        }
+    }
+    
+    // Filter functionality
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active filter button
+            filterBtns.forEach(b => b.classList.remove('gallery__filter-btn--active'));
+            btn.classList.add('gallery__filter-btn--active');
+            
+            // Update current filter
+            currentFilter = btn.getAttribute('data-filter');
+            currentGalleryPage = 1;
+            
+            // Render filtered items
+            const filteredItems = getFilteredItems();
+            renderGalleryItems(filteredItems, currentGalleryPage);
+            updatePagination(filteredItems.length);
+        });
+    });
+    
+    // Pagination navigation
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (currentGalleryPage > 1) {
+                currentGalleryPage--;
+                const filteredItems = getFilteredItems();
+                renderGalleryItems(filteredItems, currentGalleryPage);
+                updatePagination(filteredItems.length);
+            }
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            const filteredItems = getFilteredItems();
+            const totalPages = Math.ceil(filteredItems.length / galleryItemsPerPage);
+            if (currentGalleryPage < totalPages) {
+                currentGalleryPage++;
+                renderGalleryItems(filteredItems, currentGalleryPage);
+                updatePagination(filteredItems.length);
+            }
+        });
+    }
+    
+    // Load more functionality
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', () => {
+            galleryItemsPerPage += 12;
+            const filteredItems = getFilteredItems();
+            renderGalleryItems(filteredItems, 1);
+            updatePagination(filteredItems.length);
+            
+            // Hide load more if all items are shown
+            if (galleryItemsPerPage >= filteredItems.length) {
+                loadMoreBtn.style.display = 'none';
+            }
+        });
+    }
+    
+    // Initial render
+    const filteredItems = getFilteredItems();
+    renderGalleryItems(filteredItems, currentGalleryPage);
+    updatePagination(filteredItems.length);
 }
 
 // ===== SCROLL UP BUTTON =====
@@ -474,6 +635,7 @@ function initScrollAnimations() {
         .story-card,
         .event-card,
         .certification-card,
+        .testimonial-card,
         .value-card,
         .stats__card
     `);
@@ -483,6 +645,137 @@ function initScrollAnimations() {
         el.style.transform = 'translateY(30px)';
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
+    });
+}
+
+// ===== TESTIMONIALS CAROUSEL (Optional Enhancement) =====
+function initTestimonialsCarousel() {
+    const testimonialCards = document.querySelectorAll('.testimonial-card');
+    
+    if (testimonialCards.length > 3) {
+        // Add carousel functionality for testimonials if there are more than 3
+        // This is optional and can be implemented if needed
+    }
+}
+
+// ===== CERTIFICATE MODAL VIEWER =====
+function initCertificateViewer() {
+    const viewBtns = document.querySelectorAll('.certification-card__view-btn');
+    
+    viewBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const card = btn.closest('.certification-card');
+            const img = card.querySelector('.certification-card__img');
+            const title = card.querySelector('.certification-card__title').textContent;
+            
+            // Create modal for certificate viewing
+            const modal = document.createElement('div');
+            modal.className = 'certificate-modal';
+            modal.innerHTML = `
+                <div class="certificate-modal__content">
+                    <div class="certificate-modal__header">
+                        <h3>${title}</h3>
+                        <button class="certificate-modal__close">&times;</button>
+                    </div>
+                    <div class="certificate-modal__body">
+                        <img src="${img.src}" alt="${title}" class="certificate-modal__image">
+                    </div>
+                </div>
+            `;
+            
+            // Add styles
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+            
+            const content = modal.querySelector('.certificate-modal__content');
+            content.style.cssText = `
+                background: white;
+                border-radius: 12px;
+                max-width: 90%;
+                max-height: 90%;
+                overflow: hidden;
+                position: relative;
+            `;
+            
+            const header = modal.querySelector('.certificate-modal__header');
+            header.style.cssText = `
+                padding: 20px;
+                border-bottom: 1px solid #e5e7eb;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            `;
+            
+            const closeBtn = modal.querySelector('.certificate-modal__close');
+            closeBtn.style.cssText = `
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: #6b7280;
+            `;
+            
+            const body = modal.querySelector('.certificate-modal__body');
+            body.style.cssText = `
+                padding: 20px;
+                text-align: center;
+            `;
+            
+            const image = modal.querySelector('.certificate-modal__image');
+            image.style.cssText = `
+                max-width: 100%;
+                max-height: 70vh;
+                object-fit: contain;
+            `;
+            
+            // Add to DOM
+            document.body.appendChild(modal);
+            
+            // Show modal
+            setTimeout(() => {
+                modal.style.opacity = '1';
+            }, 10);
+            
+            // Close modal function
+            function closeModal() {
+                modal.style.opacity = '0';
+                setTimeout(() => {
+                    if (modal.parentNode) {
+                        modal.parentNode.removeChild(modal);
+                    }
+                }, 300);
+            }
+            
+            // Event listeners
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // ESC key to close
+            const handleEsc = (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                    document.removeEventListener('keydown', handleEsc);
+                }
+            };
+            document.addEventListener('keydown', handleEsc);
+        });
     });
 }
 
@@ -497,12 +790,15 @@ function init() {
     
     // Initialize all functionality
     initCarousel();
+    initGallery();
     initFAQ();
     initDonationAmounts();
     initContactForm();
     initSmoothScrolling();
     initGalleryLightbox();
     initScrollAnimations();
+    initTestimonialsCarousel();
+    initCertificateViewer();
     
     // Set up scroll event listeners
     window.addEventListener('scroll', () => {
@@ -544,3 +840,4 @@ if ('performance' in window) {
         }, 0);
     });
 }
+
