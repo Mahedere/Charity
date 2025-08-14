@@ -166,19 +166,19 @@ function initGallery() {
     
     // All gallery items data (simulate more items)
     const allGalleryItems = [
-        { category: 'events', title: 'Community Meeting', date: '2023', src: '/images/gallery-1.jpg' },
-        { category: 'support', title: 'Food Distribution', date: '2023', src: '/images/gallery-2.jpg' },
-        { category: 'healthcare', title: 'Healthcare Support', date: '2023', src: '/images/gallery-3.jpg' },
+        { category: 'events', title: 'Community Meeting', date: '2016', src: '/assets/gallery/food.jpg' },
+        { category: 'support', title: 'Food Distribution', date: '2017', src: '/assets/gallery/food2024.jpg' },
+        { category: 'healthcare', title: 'Healthcare Support', date: '2015', src: '/assets/gallery/kid.jpg' },
         { category: 'community', title: 'Community Celebration', date: '2023', src: '/images/gallery-4.jpg' },
         { category: 'support', title: 'Youth Training', date: '2023', src: '/images/gallery-5.jpg' },
         { category: 'events', title: 'Certificate Ceremony', date: '2023', src: '/images/gallery-6.jpg' },
         { category: 'community', title: 'Volunteer Activities', date: '2022', src: '/images/gallery-7.jpg' },
         { category: 'support', title: 'Elderly Care', date: '2022', src: '/images/gallery-8.jpg' },
-        { category: 'community', title: 'Community Outreach', date: '2022', src: '/images/gallery-9.jpg' },
+        { category: 'community', title: 'Community Outreach', date: '2017', src: '/assets/img/newyear2017.jpg' },
         { category: 'events', title: 'Holiday Celebration', date: '2022', src: '/images/gallery-10.jpg' },
+        { category: 'support', title: 'Food Distribution', date: '2017', src: '/assets/img/newyear2017(2).jpg' },
         { category: 'healthcare', title: 'Medical Care Access', date: '2022', src: '/images/gallery-11.jpg' },
         { category: 'community', title: 'Facility Management', date: '2021', src: '/images/gallery-12.jpg' },
-        // Additional items for pagination
         { category: 'events', title: 'Annual Gathering', date: '2021', src: '/images/gallery-13.jpg' },
         { category: 'support', title: 'Emergency Aid', date: '2021', src: '/images/gallery-14.jpg' },
         { category: 'healthcare', title: 'Health Checkup', date: '2021', src: '/images/gallery-15.jpg' },
@@ -187,6 +187,7 @@ function initGallery() {
         { category: 'events', title: 'Fundraising Event', date: '2020', src: '/images/gallery-18.jpg' },
         { category: 'community', title: 'Neighborhood Clean-up', date: '2020', src: '/images/gallery-19.jpg' },
         { category: 'healthcare', title: 'Mobile Clinic', date: '2020', src: '/images/gallery-20.jpg' },
+             { category: 'support', title: 'Food Distribution', date: '2017', src: '/assets/img/newyear2017(1).jpg' },
         { category: 'support', title: 'Educational Support', date: '2020', src: '/images/gallery-21.jpg' },
         { category: 'events', title: 'Recognition Ceremony', date: '2019', src: '/images/gallery-22.jpg' },
         { category: 'community', title: 'Community Garden', date: '2019', src: '/images/gallery-23.jpg' },
