@@ -605,10 +605,10 @@
                         <div class="ongoing-program-card__content">
                             <h3 class="ongoing-program-card__title" data-en="Office Operations" data-am="የቢሮ አሰራር">
                                 Office Operations</h3>
-                            <p class="ongoing-program-card__description"
-                                data-en="Maintaining operational office space with annual rental costs covered to ensure continuous service delivery and community accessibility."
-                                data-am="ቀጣይ የአገልግሎት አሰጣጥ እና የማህበረሰብ ተደራሽነት ለማረጋገጥ ወርሃዊ 15,000 ብር የቢሮ ኪራይ እናወጣለን።">
-                                Maintaining operational office space with monthly 15,000 ETB rental costs covered to
+                            <p class="ongoing-program-card__description" data-en="  Maintaining operational office space with monthly 15,200 ETB rental costs covered to
+                                ensure continuous service delivery and community accessibility."
+                                data-am="ቀጣይ የአገልግሎት አሰጣጥ እና የማህበረሰብ ተደራሽነት ለማረጋገጥ ወርሃዊ 15,200 ብር የቢሮ ኪራይ እናወጣለን።">
+                                Maintaining operational office space with monthly 15,200 ETB rental costs covered to
                                 ensure continuous service delivery and community accessibility.</p>
                             <div class="ongoing-program-card__stats">
                                 <div class="stat-item">
@@ -1377,7 +1377,7 @@
                             </div>
                         </div>
                     </div>
-                     <div class="certification-card">
+                    <div class="certification-card">
                         <div class="certification-card__image">
                             <img src="/assets/img//certi4.jpg" alt="Community Service Recognition"
                                 class="certification-card__img">
@@ -1397,7 +1397,8 @@
                             <div class="certification-card__details">
                                 <span class="certification-card__detail">
                                     <strong data-en="Issued by:" data-am="የተሰጠው በ:">Issued by:</strong> <span
-                                        data-en="Yeka Sub City Administration" data-am="የካ ክፍለ ከተማ">Yeka Sub City Administration</span>
+                                        data-en="Yeka Sub City Administration" data-am="የካ ክፍለ ከተማ">Yeka Sub City
+                                        Administration</span>
                                 </span>
                                 <span class="certification-card__detail">
                                     <strong data-en="Year:" data-am="ዓመት:">Year:</strong> 2025
@@ -1615,7 +1616,7 @@
                                 <h4>Dashen Bank</h4>
                                 <p>A/C No. 0059105973011</p>
                             </div>
-                              <div class="bank-account">
+                            <div class="bank-account">
                                 <h4>Abysinnia Bank</h4>
                                 <p>A/C No. 202101895 </p>
                             </div>
@@ -1636,8 +1637,10 @@
 
                     <p class="contact__description"
                         data-en="We'd love to hear from you! Reach out to us for inquiries, collaborations, or to learn more about our work."
-                        data-am="ከእርስዎ መስማት እንወዳለን! ለጥያቄዎች፣ ለትብብር ወይም ስለ ሥራችን የበለጠ ለማወቅ ያግኙን።">We'd love to hear from
-                        you! Reach out to us for inquiries, collaborations, or to learn more about our work.</p>
+                        data-am="ከእርስዎ መስማት እንወዳለን! ለጥያቄዎች፣ ለትብብር ወይም ስለ ሥራችን የበለጠ ለማወቅ ያግኙን።">
+                        We'd love to hear from you! Reach out to us for inquiries, collaborations, or to learn more
+                        about our work.
+                    </p>
 
                     <ul class="contact__list">
                         <li class="contact__item">
@@ -1666,7 +1669,8 @@
                     </ul>
                 </div>
 
-                <form class="contact__form" id="contact-form">
+                <!-- ✅ fixed: added method + action -->
+                <form class="contact__form" id="contact-form" action="contact_form.php" method="post">
                     <div class="contact__form-group">
                         <label for="name" class="contact__form-label" data-en="Name" data-am="ስም">Name</label>
                         <input type="text" id="name" name="name" class="contact__form-input" placeholder="Your Name"
@@ -1700,6 +1704,7 @@
             </div>
         </section>
 
+
         <!-- FAQ Section -->
         <section class="faq section section--bg" id="faq">
             <div class="faq__container container">
@@ -1717,8 +1722,8 @@
                             <span class="faq__icon">+</span>
                         </button>
                         <div class="faq__answer">
-                            <p data-en="You can donate through our bank accounts listed above or contact us directly. We're working on integrating online payment processing for easier donations."
-                                data-am="ከላይ በተዘረዘሩት የባንክ ሂሳቦቻችን በኩል ልገሳ ማድረግ ወይም በቀጥታ ማግኘት ይችላሉ። ለቀላል ልገሳዎች የመስመር ላይ ክፍያ ሂደትን ለማዋሃድ እየሰራን ነው።">
+                            <p data-en="You can donate through our bank accounts listed above or contact us directly."
+                                data-am="ከላይ በተዘረዘሩት የባንክ ሂሳቦቻችን በኩል ልገሳ ማድረግ ወይም በቀጥታ ማግኘት ይችላሉ።">
                                 You can donate through our bank accounts listed above or contact us directly</p>
                         </div>
                     </div>
@@ -1775,14 +1780,14 @@
         <div class="footer__container container grid">
             <div class="footer__content">
                 <div class="footer__logo">
-                    <img src="/assets//icon/favicon.png"
-                        alt="CNDA Logo" class="footer__logo-img">
+                    <img src="/assets//icon/favicon.png" alt="CNDA Logo" class="footer__logo-img">
                 </div>
                 <p class="footer__description" data-en="The more you give the more you receive. ሁሌም ስንሰጥ የምንቀበለዉ ይበዛል"
                     data-am="ሁሌም ስንሰጥ የምንቀበለዉ ይበዛል። The more you give the more you receive.">The more you give the more
                     you receive.<br>ሁሌም ስንሰጥ የምንቀበለዉ ይበዛል</p>
                 <div class="footer__social">
-                    <a href="https://www.linkedin.com/company/cnda-congo-neighborhood-development-association" class="footer__social-link" aria-label="LinkedIn">💼</a>
+                    <a href="https://www.linkedin.com/company/cnda-congo-neighborhood-development-association"
+                        class="footer__social-link" aria-label="LinkedIn">💼</a>
                 </div>
             </div>
 
