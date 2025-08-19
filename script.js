@@ -169,7 +169,7 @@ function initGallery() {
         { category: 'events', title: 'Community Meeting', date: '2016', src: '/assets/gallery/food.jpg' },
         { category: 'support', title: 'Food Distribution', date: '2017', src: '/assets/gallery/food2024.jpg' },
         { category: 'healthcare', title: 'Healthcare Support', date: '2015', src: '/assets/gallery/kid.jpg' },
-        { category: 'community', title: 'Community Celebration', date: '2023', src: '/images/gallery-4.jpg' },
+        { category: 'community', title: 'Community Celebration', date: '2023', src: 'assets/gallery/chris 2017.jpg '},
         { category: 'support', title: 'Youth Training', date: '2023', src: '/images/gallery-5.jpg' },
         { category: 'events', title: 'Certificate Ceremony', date: '2023', src: '/images/gallery-6.jpg' },
         { category: 'community', title: 'Volunteer Activities', date: '2022', src: '/images/gallery-7.jpg' },
